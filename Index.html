@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date of Birth Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+	body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.card h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="number"] {
+    width: calc(33.33% - 10px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+input[type="number"]:last-of-type {
+    margin-right: 0;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#result {
+    margin-top: 15px;
+    font-size: 18px;
+    text-align: center;
+}
+	</style>
+<body>
+    <div class="card">
+        <h1>Date of Birth Calculator</h1>
+        <div class="input-group">
+            <label for="day">Day:</label>
+            <input type="number" id="day" min="1" max="31" placeholder="DD">
+        </div>
+        <div class="input-group">
+            <label for="month">Month:</label>
+            <input type="number" id="month" min="1" max="12" placeholder="MM">
+        </div>
+        <div class="input-group">
+            <label for="year">Year:</label>
+            <input type="number" id="year" min="1900" max="2100" placeholder="YYYY">
+        </div>
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+<script>
+	function calculateAge() {
+    const day = parseInt(document.getElementById('day').value, 10);
+    const month = parseInt(document.getElementById('month').value, 10);
+    const year = parseInt(document.getElementById('year').value, 10);
+    
+    const today = new Date();
+    const dob = new Date(year, month - 1, day);
+
+    if (isNaN(dob.getTime()) || day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > today.getFullYear()) {
+        document.getElementById('result').textContent = 'Please enter a valid date.';
+        return;
+    }
+
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDifference = today.getMonth() - dob.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+
+    document.getElementById('result').textContent = `You are ${age} years old.`;
+}
+	</script>
+</html>
